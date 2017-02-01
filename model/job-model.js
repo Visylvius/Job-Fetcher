@@ -1,10 +1,12 @@
-var orm = require('orm');
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
-var Job = module.exports = {
-  properties: {
-    status: String,
-    html: { type: 'text' },
-    url: String,
-    id: { type: 'serial', key: true }
-  }
-};
+const jobSchema = new Schema({
+  url: String,
+  status: String,
+  html: String
+});
+
+const job = mongoose.model('job', jobSchema);
+
+module.exports = job;

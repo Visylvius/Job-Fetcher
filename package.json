@@ -17,14 +17,20 @@
     "body-parser": "^1.16.0",
     "eslint-config-rallycoding": "^3.2.0",
     "express": "^4.14.1",
+    "kue": "^0.11.5",
+    "mongoose": "^4.8.1",
     "morgan": "^1.7.0",
     "orm": "^3.2.3",
     "path": "^0.12.7",
+    "pg": "^6.1.2",
     "q-orm": "0.0.3",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
     "react-redux": "^5.0.2",
     "redux": "^3.6.0",
+    "request": "^2.79.0",
+    "request-promise": "^4.1.1",
+    "validator": "^6.2.1",
     "webpack": "^2.2.1"
   }
 }
