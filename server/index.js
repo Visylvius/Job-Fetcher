@@ -14,5 +14,7 @@ const server = app.listen(port, () => {
 })
 
 
+//to start mongo
+// brew services start mongo
 
 module.exports = app;
