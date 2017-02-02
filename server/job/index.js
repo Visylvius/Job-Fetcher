@@ -9,11 +9,16 @@ let queue = kue.createQueue();
 // console.log('queue', queue);
 
 
-exports.getJobs = (req, res) => {
+exports.getAllJobs = (req, res) => {
   jobModel.find({})
   .then((model) => {
     res.status(200).send(model);
   });
+};
+
+exports.getSpecificJob = (req, res) => {
+  console.log('id in getSpecificJob', req.params.id);
+  res.sendStatus(200);
 };
 
 exports.postJob = (req, res) => {
@@ -40,10 +45,21 @@ exports.postJob = (req, res) => {
   });
 };
 
-const getStaticHtml = () => {
-
+const getStaticHtml = (url, id, done) => {
+  rp(url)
+    .then((htmlString) => {
+      jobModel.findOneAndUpdate({_id: id}, {status: 'completed', html: htmlString},
+      () => {
+        console.log(`the request was successful ${id} has successfully cached the html`);
+      });
+    })
+    .catch((err) => {
+      console.log('there was an error in retrieving the htmlString', err);
+      return done(new Error('There was an error with retreiving the htmlString'));
+    });
+  done();
 };
 
 queue.process('job', 100, (job, done) => {
-  console.log('job in queue', job.data);
+  getStaticHtml(job.data.url, job.data.id, done);
 });
