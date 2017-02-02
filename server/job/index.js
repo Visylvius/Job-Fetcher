@@ -17,8 +17,12 @@ exports.getAllJobs = (req, res) => {
 };
 
 exports.getSpecificJob = (req, res) => {
-  console.log('id in getSpecificJob', req.params.id);
-  res.sendStatus(200);
+  jobModel.findById(req.params.id, (err, specificJob) => {
+    if (err) {
+      return res.status(404).json({err});
+    }
+    res.status(200).send(specificJob);
+  });
 };
 
 exports.postJob = (req, res) => {
@@ -50,7 +54,7 @@ const getStaticHtml = (url, id, done) => {
     .then((htmlString) => {
       jobModel.findOneAndUpdate({_id: id}, {status: 'completed', html: htmlString},
       () => {
-        console.log(`the request was successful ${id} has successfully cached the html`);
+        console.log(`the request was successful id:${id} has archived the html`);
       });
     })
     .catch((err) => {
