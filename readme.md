@@ -21,7 +21,7 @@ Lastly I prefer using nodemon for my node server. You can use a different servic
 ```
 npm install -g nodemon
 ```
-Your going to need to have a redis server, mongo database, and the node server runnning at the same time.
+You're going to need to have a redis server, mongo database, and the node server runnning at the same time.
 ```
 redis-server /usr/local/etc/redis.conf;
 brew services start mongo
@@ -34,6 +34,14 @@ nodemon index.js
 And then everything should be running, and your ready to start submitting jobs to the queue.
 ## API Reference
 
+There are 3 end points
+```
+get '/api/jobs'
+get '/api/jobs/:id'
+post '/api/job'
+```
+
+I like to use postman in order to test these endpoints. 
 
 
 ## Tests

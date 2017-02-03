@@ -61,6 +61,9 @@ const getStaticHtml = (url, id, done) => {
   done();
 };
 
+
+//Whenever a job is queued is function is immediately executed
+//the 2nd argument to the process function is how many jobs are allowed to process concurrently.
 queue.process('job', 100, (job, done) => {
   getStaticHtml(job.data.url, job.data.id, done);
 });
