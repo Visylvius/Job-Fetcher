@@ -62,11 +62,27 @@ describe('Api Test', () => {
     request(app)
     .get(`/api/job/${id}`)
     .expect('Content-Type', 'application/json; charset=utf-8')
-    .expect(200, done);
-  })
+    .expect(200)
+      .then((response) => {
+        expect(response.body).to.have.property('url');
+        expect(response.body).to.have.property('status');
+        expect(response.body).to.have.property('html');
+        done();
+      });
+  });
+  it('should respond with a proper messsage if a user submits an improper url', (done) => {
+    request(app)
+    .post('/api/job')
+    .send({
+      url: 'fsdfsdfsdfdfsfdsdfs'
+    })
+    .expect(404)
+      .then((response) => {
+        expect(response.body).to.deep.equal({"error": "The Url submitted wasn't valid. Please submit another url"});
+        done();
+      });
+  });
 });
 
-
-//check for individual item in the database
 //check to see if the request html matches the html from the actual site
 //check to see how it responds to a bogus url
