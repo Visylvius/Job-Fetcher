@@ -37,11 +37,22 @@ And then everything should be running, and your ready to start submitting jobs t
 There are 3 end points
 ```
 get '/api/jobs'
+```
+This Returns all jobs in the database
+```
 get '/api/jobs/:id'
+```
+This returns the specific entry
+```
 post '/api/job'
 ```
+This adds a job to the database
+The current schema is
+url: String,
+status: String,
+html: String
 
-I like to use postman in order to test these endpoints. 
+I like to use postman in order to test these endpoints.
 
 
 ## Tests

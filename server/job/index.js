@@ -6,9 +6,11 @@ let kue = require('kue');
 let queue = kue.createQueue();
 
 exports.getAllJobs = (req, res) => {
-  jobModel.find({})
-  .then((model) => {
-    res.status(200).send(model);
+  jobModel.find({}, (err, jobs) => {
+    if (err) {
+      return res.status(400).json({err});
+    }
+    res.status(200).send(jobs);
   });
 };
 
@@ -23,12 +25,14 @@ exports.getSpecificJob = (req, res) => {
 
 exports.postJob = (req, res) => {
   const url = req.body.url;
+  //validator runs a regex on the url to make sure its valid, before saving to the db.
   if (validator.isURL(url)) {
     jobModel.create({
       url,
       status: 'pending',
       html: null
     }, (err, newJob) => {
+      //if the url is valid we then add the url to the queue to scrape the html
       queue.create('job', {
         url,
         status: 'pending',
@@ -58,6 +62,7 @@ const getStaticHtml = (url, id, done) => {
       console.log('there was an error in retrieving the htmlString', err);
       return done(new Error('There was an error with retreiving the htmlString'));
     });
+    //we only invoke done when the job is complete
   done();
 };
 
