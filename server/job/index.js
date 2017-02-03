@@ -1,13 +1,9 @@
 let rp = require('request-promise');
 let validator = require('validator');
 let jobModel = require('../../model/job-model');
-// let queue = require('../workers');
 
 let kue = require('kue');
 let queue = kue.createQueue();
-
-// console.log('queue', queue);
-
 
 exports.getAllJobs = (req, res) => {
   jobModel.find({})
@@ -27,26 +23,27 @@ exports.getSpecificJob = (req, res) => {
 
 exports.postJob = (req, res) => {
   const url = req.body.url;
-  console.log('url', url);
-  jobModel.create({
-    url,
-    status: 'pending',
-    html: null
-  }, (err, newJob) => {
-    console.log('newJob', newJob);
-    console.log('url', url);
-    queue.create('job', {
+  if (validator.isURL(url)) {
+    jobModel.create({
       url,
       status: 'pending',
-      html: null,
-      id: newJob._id
-    }).save((err) => {
-      if (err) {
-        return res.status(404).json({err});
-      }
+      html: null
+    }, (err, newJob) => {
+      queue.create('job', {
+        url,
+        status: 'pending',
+        html: null,
+        id: newJob._id
+      }).save((err) => {
+        if (err) {
+          return res.status(404).json({err});
+        }
+      });
+      res.status(200).send(newJob._id);
     });
-    res.status(200).send(newJob._id);
-  });
+  } else {
+    res.status(404).json({error: "The Url submitted wasn't valid. Please submit another url"});
+  }
 };
 
 const getStaticHtml = (url, id, done) => {

@@ -4,7 +4,8 @@ const mongoose = require('mongoose');
 
 const app = express();
 const port = process.env.PORT || 4000;
-mongoose.connect('mongodb://localhost/myapp');
+
+mongoose.connect(`mongodb://localhost/${process.env.DATABASE || 'myapp'}`);
 
 require('./config/middleware.js')(app, express);
 app.use('/api', routes);
