@@ -9,8 +9,8 @@ let jobModel = require('../model/job-model');
 
 //we set this variable so we can grab the id for the post test
 let id;
-//when running tests use the command
-// database=test mocha test/api-test.js
+
+
 
 describe('Api Test', () => {
   before(() => {
@@ -83,6 +83,3 @@ describe('Api Test', () => {
       });
   });
 });
-
-//check to see if the request html matches the html from the actual site
-//check to see how it responds to a bogus url
