@@ -10,8 +10,6 @@ let jobModel = require('../model/job-model');
 //we set this variable so we can grab the id for the post test
 let id;
 
-
-
 describe('Api Test', () => {
   before(() => {
     jobModel.remove({}, () => {
