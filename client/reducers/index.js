@@ -5,17 +5,10 @@ import createLogger from 'redux-logger';
 
 const createStoreWithMiddleware = applyMiddleware(ReduxPromise(), ReduxThunk, createLogger())(createStore);
 
-const initialState = { stuff: 'none', error: null, loaded: false};
-
-const testReducer = (state = initialState, action) => {
-  switch (action.type) {
-    default:
-    return state;
-  }
-};
+import { jobReducer } from './job-reducer';
 
 const rootReducer = combineReducers({
- test: testReducer
+ job: jobReducer
 });
 
 export default createStoreWithMiddleware(rootReducer);
